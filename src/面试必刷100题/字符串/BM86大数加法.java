@@ -1,5 +1,6 @@
 package 面试必刷100题.字符串;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 /**
@@ -35,6 +36,7 @@ public class BM86大数加法 {
 
         }
 
+        HashMap<Character,Integer> mp = new HashMap<>(16);
 
 
 
