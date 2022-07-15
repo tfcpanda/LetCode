@@ -1,4 +1,4 @@
-![image-20211027103129734](C:\Users\田付成\AppData\Roaming\Typora\typora-user-images\image-20211027103129734.png)
+                                                                                                         ![image-20211027103129734](C:\Users\田付成\AppData\Roaming\Typora\typora-user-images\image-20211027103129734.png)
 
 ### docker 进入redis
 

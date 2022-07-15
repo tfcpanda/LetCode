@@ -1,14 +1,1 @@
-/out/production/LetCode/t2.class
-/out/production/LetCode/easy/T3.class
-/out/production/LetCode/easy/T1.class
-/out/production/LetCode/t1.class
-/out/production/LetCode/easy/T2.class
-/out/production/LetCode/t3.class
-/out/production/LetCode/easy/T4.class
-/out/production/LetCode/easy/Test$1.class
-/out/production/LetCode/easy/Test.class
-/out/production/LetCode/easy/test1.class
-/out/production/LetCode/easy/合并区间$1.class
-/out/production/LetCode/easy/合并区间$Interval.class
-/out/production/LetCode/easy/合并区间.class
-/out/production/LetCode/easy/装最多水的容器.class
+*.class
