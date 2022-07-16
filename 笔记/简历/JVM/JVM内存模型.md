@@ -1,3 +1,5 @@
+
+
 JVM问题
 
 |            | 项目特点 | 遇到的JVM问题                            |
@@ -18,6 +20,8 @@ JVM问题
 
 
 **程序计数区：**
+
+![图片](https://mmbiz.qpic.cn/mmbiz_png/5ic2qggSMqHnVxj0JCTcicsMeSnQGdcEGnWzyF5mXeiad802RtDrPIdBzPqf9X5vwnJMbGXAzmr5csXEaW01hCPsg/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
 
 - 是什么？
   - 程序计数器是一块较小的内存空间，它可以看作是当前线程所执行的字节码的行号指示器
@@ -41,6 +45,30 @@ JVM问题
 
 - 如果线程请求的栈深度大于虚拟机所允许的深度，将抛出 StackOverflowError 异常
 
+- 
+
+- ```
+  每一个方法从调用开始到完成的过程，就是一个栈帧在在虚拟机中入栈到出栈的过程
+  ```
+
+<img src="https://mmbiz.qpic.cn/mmbiz_png/5ic2qggSMqHnVxj0JCTcicsMeSnQGdcEGn9V5ErYtJOZlZMfbJQXd16aic4qD2kGG0oZWHgQHkdyc8iabekcxO7QhA/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片" style="zoom: 25%;" />
+
+栈帧包含的内容
+
+1. 局部变量表
+2. 操作数栈
+3. 动态链接
+
+说白了就是:
+
+- 存放了编译期可知的各种基本数据类型（boolean，byte，char，short，int...）
+- 存放对象引用（注意不是对象本身，是引用，即指针）
+- 存放字节码指令地址 returnAddress 类型（即方法返回地址，方法出口）
+
+局部变量表的内存空间在编译期间就完成了分配，进入一个方法的时候，这个方法需要在帧里面分配多少局部变量空间是确定的，不会改变。
+
+
+
 
 
 **本地方法栈**
@@ -52,6 +80,11 @@ JVM问题
 
 
 
+1. StackOverFlowError：栈溢出，线程请求的栈深度大于虚拟机所允许的深度（代码实现可以写一个递归方法，然后不给递归出口，调用递归方法每次递归都会产生新的栈帧直到把栈区打满溢出）
+2. OutOfMemoryError：虚拟机栈扩展时无法申请到足够内存（代码实现可以一直循环new对象，直到把堆区打满内存溢出）
+
+
+
 **堆**
 
 - 是Java内存区域中一块用来存放对象实例的区域，【几乎所有的对象实例都在这里分配内存】
@@ -60,12 +93,32 @@ JVM问题
 - Java 堆是垃圾收集器管理的主要区域，因此很多时候也被称做“GC 堆”（Garbage
 - -Xmx -Xms
 - Java堆可以分成新生代和老年代 新生代可分为To Space、From Space、Eden
+- OutOfMemoryError异常。如果在堆中没有内存完成实例分配，并且堆也无法再扩展时会抛出此异常。
 
 
 
 
 
 **方法区**
+
+
+
+
+
+<img src="https://mmbiz.qpic.cn/mmbiz_png/5ic2qggSMqHnVxj0JCTcicsMeSnQGdcEGnQU8y4UjiaM8Ah4VlKcerdwd82rMWVJxoNtvOE5zrwiacQudRUiapxTZzA/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片" style="zoom:25%;" />
+
+
+
+由图看出此部分主要有静态的常量（类信息不会变），和运行时常量池。
+
+用于存储:
+
+1. 已被虚拟机加载的类信息
+2. 常量
+3. 静态变量
+4. 即时编译器（JIT）编译后的代码
+
+
 
 - 是各个线程共享的内存区域，它用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码等数据
 - 什么是类信息：类版本号、方法、接口
@@ -81,10 +134,41 @@ JVM问题
 
 
 
-垃圾回收
+运行时常量池是方法区的一部分，class文件除了类的版本，字段，方法，接口等描述信息之外，还有一项信息是常量池，用于存放编译期生成的各种字面量和符号引用，这些内容将在类加载后进入方法区的运行时常量池中存放。
+
+这部分内容是具备动态性的，运行期间可以放入新的常量，例如String类的intern（）方法，以及new String（“123”）的时候，String类型先会先去常量池看123存在不，存在的话直接在堆区生成对象并且引用他，如果不存在会先去常量池创建一个“123”再去堆引用指向他。
 
 
 
-虚拟机工具
 
-实战演练
+
+
+
+###  JVM堆，栈，方法区对应结构
+
+<img src="https://mmbiz.qpic.cn/mmbiz_png/5ic2qggSMqHnVxj0JCTcicsMeSnQGdcEGnJG9QHYrcpIgfa6V7ibSEtiaPlm8ib6VvzjzZp7jWQ5TsoNw5el389IagA/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片" style="zoom: 50%;" />
+
+
+
+```
+从设计者角度根据类的内容来划分JVM内存：
+```
+
+方法区其实就是存放一些“死的东西”，不会动的东西，例如类的一些死的信息（类名，常量等）；
+
+栈是存放活的动起来的东西，专门对类函数方法来设置的，入栈出栈也不用垃圾回收内存什么的（试想一下，类里面的方法很多，而且是方法进入方法返回，都有进有出，在数据结构里面只有栈这种结构能满足设计，栈帧当然就是根据方法里面的局部变量什么的来设计的）；
+
+堆区存放对象，对象变化比较大，涉及到垃圾回收因此也单独划分区域来存储，便于管理和回收；
+
+程序计数器方便调度字节码指令，让程序动起来，即代码按照代码顺序执行；
+
+本地方法栈由于是调用的c代码，是通过动态链接的方式而不是传统数据结构中的栈结构，所以也抽出来进行特殊处理，划分一个本地方法栈。
+
+这样看，整个类信息主要是拆开来，为了方便管理，存储和调度从而划分成了这几个区域。
+
+
+
+
+
+
+
