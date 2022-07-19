@@ -125,76 +125,32 @@ INSERT INTO salgrade VALUES (5, 30010, 99990);
 - 统计查询（聚合函数）:
 
   ```
-         count(code)或者count(*)
-  ```
-
-  ```
+     count(code)或者count(*)
           select count(*) from employee;
-  ```
-
-  ```
           select count(ename) from employee;
-  ```
-
-  ```
           
-  ```
-
-  ```
          sum()  计算总和 
-  ```
-
-  ```
           select sum(sal) from employee;
-  ```
-
-  ```
           
-  ```
-
-  ```
          max()    计算最大值
-  ```
-
-  ```
           select * from employee where sal= (select  max(sal) from employee);
-  ```
-
-  ```
           
-  ```
-
-  ```
          avg()   计算平均值
-  ```
-
-  ```
           select avg(sal) from employee;
-  ```
-
-  ```
           
-  ```
-
-  ```
          min()   计算最低值
-  ```
-
-  ```
           select * from employee where sal= (select  min(sal) from employee);
-  ```
-
-  ```
           
-  ```
-
-  ```
          concat函数： 起到连接作用
-  ```
-
-  ```
           select concat(ename,' 是 ',job) as aaaa from employee;
+         
   ```
+  
+  
+
+  ​              
+  
+    
 
 ### 5.2 mysql查询子句之二group by分组查询（分组）
 
