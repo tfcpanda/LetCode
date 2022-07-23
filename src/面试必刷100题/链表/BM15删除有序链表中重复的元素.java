@@ -25,11 +25,9 @@ public class BM15删除有序链表中重复的元素 {
 
         while (cur != null && cur.next != null) {
             if (cur.val == cur.next.val) {
-
                 cur.next = cur.next.next;
             } else {
                 cur = cur.next;
-
             }
         }
         return head;
@@ -50,10 +48,6 @@ public class BM15删除有序链表中重复的元素 {
 
 
         cur.next = cur.next.next;
-
-
-
-
 
     }
 }

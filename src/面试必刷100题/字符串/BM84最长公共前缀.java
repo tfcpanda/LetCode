@@ -44,8 +44,6 @@ public class BM84最长公共前缀 {
                     return strs[0].substring(0, i);
                 }
             }
-
-
         }
         //后续字符串有整个字一个字符串的前缀
         return strs[0];
